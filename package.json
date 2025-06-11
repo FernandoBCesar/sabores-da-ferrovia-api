@@ -4,7 +4,7 @@
   "description": "Site para restaurantes de Araraquara",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/FernandoBCesar/sabores-da-ferrovia-api/issues"
   },
-  "homepage": "https://github.com/FernandoBCesar/sabores-da-ferrovia-api#readme"
+  "homepage": "https://github.com/FernandoBCesar/sabores-da-ferrovia-api#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
