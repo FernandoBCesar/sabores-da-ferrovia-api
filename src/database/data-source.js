@@ -1,12 +1,11 @@
 const { DataSource } = require("typeorm");
-
-const Task = require("../entities/Task");
+const User = require("../entities/User");
 
 const AppDataSource = new DataSource({
   type: "sqlite",
-  database: "./src/database/sabores-da-ferrovia-api.sqlite",
+  database: "./src/database/database.sqlite",
   synchronize: true,
-  entities: [Task],
+  entities: [User],
 });
 
 module.exports = { AppDataSource };

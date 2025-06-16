@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/FernandoBCesar/sabores-da-ferrovia-api#readme",
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "express": "^5.1.0",
     "reflect-metadata": "^0.2.2",
     "sqlite3": "^5.1.7",
