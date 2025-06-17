@@ -9,5 +9,12 @@ module.exports = new EntitySchema({
     email: { type: "varchar", unique: true },
     password: { type: "varchar" },
     createdAt: { type: "datetime", createDate: true },
+  },
+  relations: {
+    favorite: {
+      target: "Favorites",
+      type: "one-to-many",
+      inverseSide: "createdBy",
+    },
   }
 });
