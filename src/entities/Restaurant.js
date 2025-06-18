@@ -5,7 +5,8 @@ module.exports = new EntitySchema({
     tableName: "restaurants",
     columns: {
     restaurantId: {  type: "integer",primary: true, generated: true },
-    image: {type:"varchar"},
+    restaurantname: {type: "integer",primary: true,},
+    createdAt: {type: "datetime",createDate: true},
 },
     relations: {
         user: {
