@@ -4,21 +4,20 @@ module.exports = new EntitySchema({
     name: "Restaurant",
     tableName: "restaurants",
     columns: {
-        restaurantId: { type: "integer", primary: true, generated: true },
-        name: { type: "integer", primary: true, },
+        restaurantId: { primary: true, type: "int", generated: true },
+        name: { type: "integer" },
         createdAt: { type: "datetime", createDate: true },
     },
     relations: {
-        createdBy: {
-            target: "User",
-            type: "many-to-one",
-            joinColumn: true,
-        },
-        favorite: {
-            target: "Favorites",
-            type: "many-to-one",
-            inverseSide: "createdBy",
-        },
-
+    createdBy: {
+        target: "User",
+        type: "many-to-one",
+        joinColumn: true,
+    },
+    review: {
+      target: "Review",
+      type: "one-to-many",
+      inverseSide: "restaurant",
+    },
     }
 });
