@@ -13,7 +13,7 @@ module.exports = new EntitySchema({
             type: "many-to-one",
             joinColumn: true,
         },
-        favorite: {
+        restaurant: {
             target: "Restaurant",
             type: "many-to-one",
             joinColumn: true,

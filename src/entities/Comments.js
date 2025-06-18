@@ -4,7 +4,7 @@ module.exports = new EntitySchema({
   name: "Comments",
   tableName: "comments",
   columns: {
-    commentId: { type: "int", primary: true, generated: true },
+    commentId: { type: "integer", primary: true, generated: true },
     comment: { type: "varchar" },
     createdAt: { type: "datetime", createDate: true },
   },
