@@ -12,7 +12,6 @@ module.exports = new EntitySchema({
             target: "User",
             type: "many-to-one",
             joinColumn: true,
-            onDelete: "SET NULL",
         },
         favorite: {
             target: "Restaurant",

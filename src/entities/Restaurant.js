@@ -4,14 +4,21 @@ module.exports = new EntitySchema({
     name: "Restaurant",
     tableName: "restaurants",
     columns: {
-        restaurantId: {  type: "integer",primary: true, generated: true }
+    restaurantId: {  type: "integer",primary: true, generated: true }
     },
     relations: {
+        user: {
+        target: "User",
+        type: "many-to-one",
+        joinColumn: true,
+        eager: true
+      },
         favorite: {
             target: "Favorites",
             type: "many-to-one",
             joinColumn: true,
             onDelete: "SET NULL",
         },
+        
     }
 });
