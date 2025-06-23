@@ -4,34 +4,61 @@ const reviewRepo = AppDataSource.getRepository("Review");
 const service = new ReviewService(reviewRepo);
 
 module.exports = {
+  // Criar uma nova avaliação
   create: async (request, response) => {
     try {
-      const { rating, comment, episodeId } = request.body;
+      const { restaurantid, stars } = request.body;
+      const userid = request.user.id; // Assume que o usuário está autenticado
 
-      // Verifica se a avaliação é válida
-      if (!rating || rating < 1 || rating > 5) {
-        return response.status(400).json({ message: "Rating must be between 1 and 5." });
+      // Validação básica
+      if (!restaurantid || !stars) {
+        return response.status(400).json({ message: "Restaurant ID and stars are required." });
       }
 
-      // Cria uma nova avaliação
+      if (stars < 1 || stars > 5) {
+        return response.status(400).json({ message: "Stars must be between 1 and 5." });
+      }
+
+      // Cria a avaliação
       const review = await service.create({
-        rating,
-        comment,
-        episode: { id: parseInt(episodeId) },
-        createdBy: { id: request.user.id }, // Supondo que você tenha um usuário autenticado
+        restaurantid,
+        userid,
+        stars,
+        createdAt: new Date(),
       });
 
-      response.status(201).json(review);
+      response.status(201).json({
+        reviewid: review.reviewid,
+        restaurantid: review.restaurantid,
+        userid: review.userid,
+        stars: review.stars,
+        createdAt: review.createdAt,
+      });
     } catch (err) {
       response.status(500).json({ message: err.message });
     }
   },
 
-  listByEpisode: async (request, response) => {
+  // Listar todas as avaliações de um restaurante
+  listByRestaurant: async (request, response) => {
     try {
-      const reviews = await service.listByEpisode(request.params.episodeId);
-
+      const reviews = await service.listByRestaurant(request.params.restaurantId);
       response.json(reviews);
+    } catch (err) {
+      response.status(500).json({ message: err.message });
+    }
+  },
+
+  // Obter avaliação por ID
+  getById: async (request, response) => {
+    try {
+      const review = await service.getById(request.params.id);
+
+      if (!review) {
+        return response.status(404).json({ message: "Review not found." });
+      }
+
+      response.json(review);
     } catch (err) {
       response.status(500).json({ message: err.message });
     }

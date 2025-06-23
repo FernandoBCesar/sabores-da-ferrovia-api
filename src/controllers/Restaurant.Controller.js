@@ -4,33 +4,41 @@ const restaurantRepo = AppDataSource.getRepository("Restaurant");
 const service = new RestaurantService(restaurantRepo);
 
 module.exports = {
+  // Criar um novo restaurante
   create: async (request, response) => {
     try {
-      const { name, description, location, cuisineType } = request.body;
+      const { name, image } = request.body;
+      const userId = request.user.id; // Assume que o usuário está autenticado
 
-      // Verifica se o nome do restaurante é fornecido
+      // Validação básica
       if (!name) {
         return response.status(400).json({ message: "Restaurant name is required." });
       }
 
-      // Cria um novo restaurante
+      // Cria o restaurante
       const restaurant = await service.create({
+        userid: userId,
         name,
-        description,
-        location,
-        cuisineType,
-        createdBy: { id: request.user.id }, // Supondo que você tenha um usuário autenticado
+        image: image || null,
+        createdAt: new Date(),
       });
 
-      response.status(201).json(restaurant);
+      response.status(201).json({
+        restaurantid: restaurant.restaurantid,
+        userid: restaurant.userid,
+        name: restaurant.name,
+        image: restaurant.image,
+        createdAt: restaurant.createdAt,
+      });
     } catch (err) {
       response.status(500).json({ message: err.message });
     }
   },
 
-  list: async (request, response) => {
+  // Listar todos os restaurantes
+  listAll: async (request, response) => {
     try {
-      const restaurants = await service.list();
+      const restaurants = await service.listAll();
 
       response.json(restaurants);
     } catch (err) {
@@ -38,12 +46,16 @@ module.exports = {
     }
   },
 
-  listByCuisine: async (request, response) => {
+  // Obter restaurante por ID
+  getById: async (request, response) => {
     try {
-      const { cuisineType } = request.params;
-      const restaurants = await service.listByCuisine(cuisineType);
+      const restaurant = await service.getById(request.params.id);
 
-      response.json(restaurants);
+      if (!restaurant) {
+        return response.status(404).json({ message: "Restaurant not found." });
+      }
+
+      response.json(restaurant);
     } catch (err) {
       response.status(500).json({ message: err.message });
     }
